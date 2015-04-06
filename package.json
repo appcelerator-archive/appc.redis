@@ -1,0 +1,54 @@
+{
+  "name": "appc.redis",
+  "description": "Redis connector for Arrow",
+  "version": "1.0.0",
+  "author": "Isaac Whitfield",
+  "license": "Apache-2.0",
+  "framework": "none",
+  "keywords": [
+    "arrow",
+    "arrow-connector",
+    "appcelerator",
+    "redis",
+    "redis-server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:appcelerator/appc.redis.git"
+  },
+  "private": true,
+  "dependencies": {
+    "async": "^0.9.0",
+    "hiredis": "^0.3.0",
+    "lodash": "^2.4.1",
+    "pkginfo": "^0.3.0",
+    "redis": "^0.12.1"
+  },
+  "devDependencies": {
+    "arrow": "*",
+    "blanket": "^1.1.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-mocha-cov": "^0.4.0",
+    "grunt-mocha-test": "^0.12.0",
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
+  },
+  "scripts": {
+    "coverage": "grunt coverage",
+    "start": "node app",
+    "test": "grunt"
+  },
+  "config": {
+    "blanket": {
+      "data-cover-never": [
+        "node_modules",
+        "test"
+      ],
+      "pattern": [
+        "lib"
+      ]
+    }
+  }
+}
