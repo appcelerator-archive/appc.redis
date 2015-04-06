@@ -6,3 +6,5 @@ node_js:
   - "iojs"
 services:
   - "redis-server"
+before_script:
+  - "npm install -g grunt-cli"
