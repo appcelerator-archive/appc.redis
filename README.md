@@ -1,4 +1,4 @@
-# Redis Connector [![Build Status](https://magnum.travis-ci.com/appcelerator/appc.redis.svg?token=Gzvsm3qZCJdhajgAynCA&branch=master)](https://magnum.travis-ci.com/appcelerator/appc.redis)
+# Redis Connector [![Build Status](https://travis-ci.org/appcelerator/appc.redis.svg?branch=master)](https://travis-ci.org/appcelerator/appc.redis)
 
 This is an Arrow connector for Redis.
 
