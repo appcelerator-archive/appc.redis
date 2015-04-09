@@ -4,6 +4,7 @@ node_modules
 test
 
 .DS_Store
+.idea
 .gitignore
 .jshintignore
 .jshintrc
