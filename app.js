@@ -5,13 +5,34 @@
 var Arrow = require('arrow'),
     server = new Arrow();
 
-var User = Arrow.Model.extend('user', {
-    fields: {
-        name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
-    },
-    connector: 'appc.redis'
+// lifecycle examples
+server.on('starting', function(){
+    server.logger.debug('server is starting!');
 });
 
-server.addModel(User);
+server.on('started', function(){
+    server.logger.debug('server started!');
+});
 
-server.start();
+// create some users programmatically
+var users = [
+    {name: 'Jeff'},
+    {name: 'Nolan'},
+    {name: 'Neeraj'},
+    {name: 'Tony'},
+    {name: 'Rick'},
+    {name: 'Kranthi'}
+];
+
+// start the server
+server.start(function () {
+    var User = Arrow.Model.extend('appc.redis/base','user',{
+        fields: {
+            name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
+        }
+    });
+
+    User.create(users, function(err,users){
+        server.logger.info('Created some users',users);
+    });
+});

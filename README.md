@@ -1,6 +1,6 @@
 # Redis Connector [![Build Status](https://travis-ci.org/appcelerator/appc.redis.svg?branch=master)](https://travis-ci.org/appcelerator/appc.redis)
 
-This is an Arrow connector for Redis.
+This is an Arrow connector for Redis, making available some of the most used features of Redis.
 
 ## Installation
 
@@ -10,7 +10,7 @@ $ appc install connector/appc.redis --save
 
 ## Usage
 
-Reference the connector in your model.
+If you wish to simply use the default Arrow CRUD operations, you can create and extend your own models:
 
 ```javascript
 var User = Arrow.Model.extend('user', {
@@ -20,6 +20,53 @@ var User = Arrow.Model.extend('user', {
 	connector: 'appc.redis'
 });
 ```
+
+If you wish to take advantage of some methods more specific to Redis, you need to extend the base Redis object.
+
+```javascript
+var User = Arrow.Model.extend('appc.redis/base', 'user', {
+	fields: {
+		name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
+	}
+});
+```
+
+This provides you with any of the documented Redis methods below.
+
+## Configuration
+
+Example configurations can be found in `conf/`. You can set any of the following on the connector:
+
+* host
+	- the hostname of the Redis server to connect to
+* port
+	- the port to use when connecting to the server
+* db
+	- the Redis database to use
+* opts
+	- options to be passed directly to [node-redis](https://github.com/mranney/node_redis#overloading)
+
+## Redis Specific Features
+
+**expire(seconds[, callback])**
+
+Sets an expiration value on the current instance, taking an optional callback. This callback receives two arguments; `err` and `success`. 
+
+**expireAt(date[, callback])**
+
+Same as the above, but taking a JavaScript `Date` acceptable value (it's passed straight to the constructor), rather than a number of seconds.
+
+**keys([limit, ]callback)**
+
+Returns a number of keys for the Model. In essence, this is a list of all primary keys for the Model. The callback receives `err` and an Array of `keys`.
+
+**persist([callback])**
+
+Removes an expiration on an instance. This callback receives two arguments; `err` and `success`. 
+
+**ttl(callback)**
+
+Returns the time-to-live of a given instance, as defined by a previously set expiration. Callback receives `err` and `ttl` (in seconds).
 
 ## Development
 

@@ -6,7 +6,7 @@ var async = require('async'),
 describe('appc.redis', function() {
 
     before(function() {
-        TestModel = common.Arrow.createModel('testModel', {
+        TestModel = common.Arrow.Model.extend('appc.redis/base', 'testUser', {
             fields:{
                 fname:{
                     type: String, required: false
@@ -17,14 +17,13 @@ describe('appc.redis', function() {
                 age:{
                     type: Number, required: false
                 }
-            },
-            connector: 'appc.redis'
+            }
         });
     });
 
     describe('#create', function(){
 
-        it('should be able to create instances', function(next) {
+        it('should create instances', function(next) {
 
             var fname = 'Hello world',
                 lname = 'Test';
@@ -54,7 +53,7 @@ describe('appc.redis', function() {
             });
         });
 
-        it('should be able to find an instance by ID', function(next) {
+        it('should find an instance by ID', function(next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -82,7 +81,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to find an instance by field value', function(next) {
+        it('should find an instance by field value', function(next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -111,7 +110,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to limit fields using sel', function (next) {
+        it('should limit fields using sel', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -141,7 +140,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to limit fields using unsel', function (next) {
+        it('should limit fields using unsel', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -175,7 +174,7 @@ describe('appc.redis', function() {
 
     describe('#find', function() {
 
-        it('should be able to find a single instance', function (next) {
+        it('should find a single instance', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -207,7 +206,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to find multiple instances', function (next) {
+        it('should find multiple instances', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -247,7 +246,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to limit instances', function (next) {
+        it('should limit instances', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -290,7 +289,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to limit fields using sel', function (next) {
+        it('should limit fields using sel', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -324,7 +323,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to limit fields using unsel', function (next) {
+        it('should limit fields using unsel', function (next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -362,7 +361,7 @@ describe('appc.redis', function() {
 
     describe('#findAll', function() {
 
-        it('should be able to find all instances', function(next) {
+        it('should find all instances', function(next) {
 
             var fname = 'James',
                 lname = 'Smith';
@@ -438,7 +437,7 @@ describe('appc.redis', function() {
 
     describe('#delete and #deleteAll', function() {
 
-        it('should be able to remove an instance', function(next){
+        it('should remove an instance', function(next){
 
             var fname = 'James',
                 lname = 'Smith';
@@ -478,7 +477,7 @@ describe('appc.redis', function() {
 
         });
 
-        it('should be able to remove all instances', function(next){
+        it('should remove all instances', function(next){
 
             var fname = 'James',
                 lname = 'Smith';
@@ -529,7 +528,7 @@ describe('appc.redis', function() {
 
     describe('#save', function(){
 
-        it('should be able to update an instance', function(next){
+        it('should update an instance', function(next){
 
             var fname = 'James',
                 lname = 'Smith';
@@ -560,6 +559,309 @@ describe('appc.redis', function() {
                             should(collection2.length).equal(1);
                             should(collection2[0].fname).equal(fname);
                             should(collection2[0].lname).equal('Jameson');
+
+                            next();
+
+                        });
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+    describe('#expire', function(){
+
+        it('should set an expiration', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                instance.expire(60, function(err, success){
+
+                    should(err).not.be.ok;
+                    should(success).be.true;
+
+                    instance.ttl(function(err, ttl){
+
+                        should(err).not.be.ok;
+                        should(ttl).be.greaterThan(50).and.lessThan(61);
+
+                        next();
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+    describe('#expireAt', function(){
+
+        it('should set an expiration using millis', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                var ttl = 1000 * 60 * 60;
+
+                instance.expireAt(Date.now() + ttl, function(err, success){
+
+                    should(err).not.be.ok;
+                    should(success).be.true;
+
+                    instance.ttl(function(err, ttl){
+
+                        should(err).not.be.ok;
+                        should(ttl).be.greaterThan(ttl - 5).and.lessThan(ttl + 1);
+
+                        next();
+
+                    });
+
+                });
+
+            });
+
+        });
+
+        it('should set an expiration using a string', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                var ttl = 1000 * 60 * 60;
+
+                instance.expireAt(new Date(Date.now() + ttl).toISOString(), function(err, success){
+
+                    should(err).not.be.ok;
+                    should(success).be.true;
+
+                    instance.ttl(function(err, ttl){
+
+                        should(err).not.be.ok;
+                        should(ttl).be.greaterThan(ttl - 5).and.lessThan(ttl + 1);
+
+                        next();
+
+                    });
+
+                });
+
+            });
+
+        });
+
+        it('should set an expiration using a date', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                var ttl = 1000 * 60 * 60;
+
+                instance.expireAt(new Date(Date.now() + ttl), function(err, success){
+
+                    should(err).not.be.ok;
+                    should(success).be.true;
+
+                    instance.ttl(function(err, ttl){
+
+                        should(err).not.be.ok;
+                        should(ttl).be.greaterThan(ttl - 5).and.lessThan(ttl + 1);
+
+                        next();
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+    describe('#persist', function(){
+
+        it('should clear an expiration', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                instance.expire(60, function(err, success){
+
+                    should(err).not.be.ok;
+                    should(success).be.true;
+
+                    instance.ttl(function(err, ttl){
+
+                        should(err).not.be.ok;
+                        should(ttl).be.greaterThan(50).and.lessThan(61);
+
+                        instance.persist(function(err, success){
+
+                            should(err).not.be.ok;
+                            should(success).be.true;
+
+                            instance.ttl(function(err, ttl){
+
+                                should(err).not.be.ok;
+                                should(ttl).eql(-1);
+
+                                next();
+
+                            });
+
+                        });
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+    describe('#keys', function(){
+
+        it('should retrieve keys for a Model', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance) {
+
+                should(err).not.be.ok;
+                should(instance).be.an.Object;
+                should(instance.getPrimaryKey()).be.a.String;
+                should(instance.fname).equal(fname);
+                should(instance.lname).equal(lname);
+
+                instance.keys(function(err, keys){
+
+                    should(err).not.be.ok;
+                    should(keys).be.ok;
+                    should(keys).be.an.Array;
+                    should(keys.length).eql(1);
+                    should(keys).containEql(instance.getPrimaryKey());
+
+                    next();
+
+                });
+
+            });
+
+        });
+
+        it('should retrieve a given number of keys for a Model', function(next) {
+
+            var fname = 'Hello world',
+                lname = 'Test';
+
+            TestModel.create({
+                fname: fname,
+                lname: lname
+            }, function(err, instance1) {
+
+                should(err).not.be.ok;
+                should(instance1).be.an.Object;
+                should(instance1.getPrimaryKey()).be.a.String;
+                should(instance1.fname).equal(fname);
+                should(instance1.lname).equal(lname);
+
+                TestModel.create({
+                    fname: fname,
+                    lname: lname
+                }, function(err, instance2) {
+
+                    should(err).not.be.ok;
+                    should(instance2).be.an.Object;
+                    should(instance2.getPrimaryKey()).be.a.String;
+                    should(instance2.fname).equal(fname);
+                    should(instance2.lname).equal(lname);
+
+                    instance1.keys(function(err, keys){
+
+                        should(err).not.be.ok;
+                        should(keys).be.ok;
+                        should(keys).be.an.Array;
+                        should(keys.length).eql(2);
+                        should(keys).containEql(instance1.getPrimaryKey());
+                        should(keys).containEql(instance2.getPrimaryKey());
+
+                        instance2.keys(1, function(err, keys){
+
+                            should(err).not.be.ok;
+                            should(keys).be.ok;
+                            should(keys).be.an.Array;
+                            should(keys.length).eql(1);
 
                             next();
 
