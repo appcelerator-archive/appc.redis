@@ -1,6 +1,6 @@
 var Arrow = require('arrow');
 
-module.exports = Arrow.createModel('base', {
+var Base = Arrow.Model.extend('base', {
 
     connector: 'appc.redis',
 
@@ -27,3 +27,5 @@ module.exports = Arrow.createModel('base', {
     }
 
 });
+
+module.exports = Base;
