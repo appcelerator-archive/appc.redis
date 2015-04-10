@@ -1,5 +1,5 @@
 var Arrow = require('arrow'),
-    server = new Arrow({ logLevel: 'fatal' }),
+    server = new Arrow({ ignoreDuplicateModels: true, logLevel: 'fatal' }),
     log = server && server.logger || Arrow.createLogger({}, { name: 'appc.redis TEST' });
 
 exports.Arrow = Arrow;
