@@ -1,7 +1,3 @@
-/**
- * Example configuration for connector/appc.redis.
- * Make the changes below as required for your environment.
- */
 module.exports = {
     connectors: {
         'appc.redis': {
