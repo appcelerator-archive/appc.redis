@@ -187,6 +187,7 @@ describe('appc.redis', function() {
                 should(createdInstance).be.an.Object;
 
                 var id = createdInstance.getPrimaryKey();
+
                 TestModel.find({
                     fname: fname
                 }, function (err, collection) {
