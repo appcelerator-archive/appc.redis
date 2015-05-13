@@ -96,6 +96,7 @@ describe('appc.redis', function() {
 
         });
 
+
     });
 
     describe('#find', function() {
