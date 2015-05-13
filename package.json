@@ -1,7 +1,7 @@
 {
   "name": "appc.redis",
   "description": "Redis connector for Arrow",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Isaac Whitfield",
   "license": "Apache-2.0",
   "framework": "none",
