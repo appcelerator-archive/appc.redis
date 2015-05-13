@@ -81,91 +81,17 @@ describe('appc.redis', function() {
 
         });
 
-        it('should find an instance by field value', function(next) {
+        it('should handle bad values', function(next) {
 
-            var fname = 'James',
-                lname = 'Smith';
+            TestModel.findOne({
+                random: {
+                    field: 1
+                }
+            }, function(err) {
+                should(err).be.ok;
+                should(err.message.indexOf('Unexpected value for findOne')).be.greaterThan(-1);
 
-            TestModel.create({
-                fname: fname,
-                lname: lname
-            }, function(err, createdInstance) {
-                should(err).not.be.ok;
-                should(createdInstance).be.an.Object;
-
-                TestModel.findOne({
-                    fname: fname
-                }, function(err, foundInstance) {
-                    should(err).not.be.ok;
-                    should(foundInstance).be.an.Object;
-
-                    should(foundInstance.getPrimaryKey()).equal(createdInstance.getPrimaryKey());
-                    should(foundInstance.fname).equal(fname);
-                    should(foundInstance.lname).equal(lname);
-
-                    next();
-                });
-
-            });
-
-        });
-
-        it('should limit fields using sel', function (next) {
-
-            var fname = 'James',
-                lname = 'Smith';
-
-            TestModel.create({
-                fname: fname,
-                lname: lname
-            }, function (err, createdInstance) {
-                should(err).not.be.ok;
-                should(createdInstance).be.an.Object;
-
-                TestModel.findOne({
-                    sel: {
-                        fname: 1
-                    }
-                }, function (err, foundInstance) {
-                    should(err).not.be.ok;
-                    should(foundInstance).be.an.Object;
-
-                    should(foundInstance.fname).equal('James');
-                    should(foundInstance.lname).not.be.ok;
-
-                    next();
-                });
-
-            });
-
-        });
-
-        it('should limit fields using unsel', function (next) {
-
-            var fname = 'James',
-                lname = 'Smith';
-
-            TestModel.create({
-                fname: fname,
-                lname: lname
-            }, function (err, createdInstance) {
-                should(err).not.be.ok;
-                should(createdInstance).be.an.Object;
-
-                TestModel.findOne({
-                    unsel: {
-                        lname: 1
-                    }
-                }, function (err, foundInstance) {
-                    should(err).not.be.ok;
-                    should(foundInstance).be.an.Object;
-
-                    should(foundInstance.fname).equal('James');
-                    should(foundInstance.lname).not.be.ok;
-
-                    next();
-                });
-
+                next();
             });
 
         });
