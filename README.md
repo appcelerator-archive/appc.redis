@@ -41,10 +41,8 @@ Example configurations can be found in `conf/`. You can set any of the following
 	- the hostname of the Redis server to connect to
 * port
 	- the port to use when connecting to the server
-* db
-	- the Redis database to use
 * opts
-	- options to be passed directly to [node-redis](https://github.com/mranney/node_redis#overloading)
+	- options to be passed directly to [ioredis](https://github.com/luin/ioredis/blob/c67f66a0edefafac134d8e43ffd6532f552d1620/API.md#new_Redis_new)
 
 ## Redis Specific Features
 
@@ -67,6 +65,12 @@ Removes an expiration on an instance. This callback receives two arguments; `err
 **ttl(callback)**
 
 Returns the time-to-live of a given instance, as defined by a previously set expiration. Callback receives `err` and `ttl` (in seconds).
+
+## Migration from 1.0.x to 1.1.x
+
+Due to limitations in `node-redis`, from v1.1.0 onwards this connector will use `ioredis`. Everything functions the same way, but the configuration flags are a little different.
+
+Previously where `db` was defined inside the top level of the connector config, it should now move into the `opts` object. Any flags already inside `opts` should be re-evaluated against the flags of `ioredis` and changed accordingly.
 
 ## Development
 
