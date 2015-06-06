@@ -26,7 +26,7 @@ var users = [
 
 // start the server
 server.start(function () {
-    var User = Arrow.Model.extend('appc.redis/base','user',{
+    var User = Arrow.Model.extend('appc.redis/hbase','user',{
         fields: {
             name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
         }
