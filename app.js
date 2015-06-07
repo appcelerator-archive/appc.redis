@@ -18,15 +18,15 @@ server.on('started', function(){
 var users = [
     {name: 'Jeff'},
     {name: 'Nolan'},
-    {name: 'Neeraj'},
-    {name: 'Tony'},
+    {name: 'Isaac'},
+    {name: 'Vasil'},
     {name: 'Rick'},
-    {name: 'Kranthi'}
+    {name: 'Dawson'}
 ];
 
 // start the server
 server.start(function () {
-    var User = Arrow.Model.extend('appc.redis/hbase','user',{
+    var User = Arrow.Model.extend('appc.redis/base','user',{
         fields: {
             name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
         }

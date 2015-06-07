@@ -24,9 +24,9 @@ module.exports = function(grunt) {
 			options: {
 				jshintrc: true
 			},
-			src: ['*.js','lib/**/*.js','test/**/*.js']
+			src: ['*.js','lib/**/*.js','models/**/*.js','test/**/*.js']
 		},
-		clean: ['tmp']
+		clean: ['coverage','logs','tmp']
 	});
 
 	// Load grunt plugins for modules

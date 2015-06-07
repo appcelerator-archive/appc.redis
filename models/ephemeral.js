@@ -1,7 +1,5 @@
 var Arrow = require('arrow');
 
-var expire, expireAt, persist, ttl;
-
 var Ephemeral = Arrow.Model.extend('ephemeral', {
 
     connector: 'appc.redis',
@@ -9,13 +7,11 @@ var Ephemeral = Arrow.Model.extend('ephemeral', {
     fields: { },
 
     expire: function (seconds, callback){
-        !expire && (expire = getConnectorDelegate(this, 'expire'));
-        return expire(this.getModel(), this, seconds, callback);
+        return getConnectorDelegate(this, 'expire')(this.getModel(), this, seconds, callback);
     },
 
     expireAt: function (date, callback){
-        !expireAt && (expireAt = getConnectorDelegate(this, 'expireAt'));
-        return expireAt(this.getModel(), this, date, callback);
+        return getConnectorDelegate(this, 'expireAt')(this.getModel(), this, date, callback);
     },
 
     ids: function (limit, callback){
@@ -23,13 +19,11 @@ var Ephemeral = Arrow.Model.extend('ephemeral', {
     },
 
     persist: function (callback){
-        !persist && (persist = getConnectorDelegate(this, 'persist'));
-        return persist(this.getModel(), this, callback);
+        return getConnectorDelegate(this, 'persist')(this.getModel(), this, callback);
     },
 
     ttl: function (callback){
-        !ttl && (ttl = getConnectorDelegate(this, 'ttl'));
-        return ttl(this.getModel(), this, callback);
+        return getConnectorDelegate(this, 'ttl')(this.getModel(), this, callback);
     }
 
 });

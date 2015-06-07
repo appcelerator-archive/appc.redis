@@ -343,13 +343,20 @@ describe('appc.redis ephemeral model', function() {
                 function (err) {
                     should(err).not.be.ok;
 
-                    TestModel.findAll(function(err, collection){
+                    TestModel.count(function(err, count){
                         should(err).not.be.ok;
-                        should(collection).be.an.Array;
+                        should(count).be.an.Number;
 
-                        should(collection).have.lengthOf(100);
+                        should(count).eql(100);
 
-                        next();
+                        TestModel.findAll(function(err, collection){
+                            should(err).not.be.ok;
+                            should(collection).be.an.Array;
+
+                            should(collection).have.lengthOf(100);
+
+                            next();
+                        });
                     });
                 }
             );
@@ -379,13 +386,20 @@ describe('appc.redis ephemeral model', function() {
                 function (err) {
                     should(err).not.be.ok;
 
-                    TestModel.findAll(function(err, collection){
+                    TestModel.count(function(err, count){
                         should(err).not.be.ok;
-                        should(collection).be.an.Array;
+                        should(count).be.an.Number;
 
-                        should(collection).have.lengthOf(1000);
+                        should(count).eql(1010);
 
-                        next();
+                        TestModel.findAll(function(err, collection){
+                            should(err).not.be.ok;
+                            should(collection).be.an.Array;
+
+                            should(collection).have.lengthOf(1000);
+
+                            next();
+                        });
                     });
                 }
             );
