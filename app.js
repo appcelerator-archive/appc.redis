@@ -32,7 +32,7 @@ server.start(function () {
         }
     });
 
-    User.create(users, function(err,users){
-        server.logger.info('Created some users',users);
+    User.create(users, function(err, users){
+        server.logger.info('Created some users', users);
     });
 });

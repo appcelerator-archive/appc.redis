@@ -15,7 +15,7 @@ var Ephemeral = Arrow.Model.extend('ephemeral', {
     },
 
     ids: function (limit, callback){
-        return this.getConnector().ids(this.getModel(), limit, callback);
+        return getConnectorDelegate(this, 'ids')(this.getModel(), limit, callback);
     },
 
     persist: function (callback){

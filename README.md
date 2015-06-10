@@ -10,7 +10,7 @@ $ appc install connector/appc.redis --save
 
 ## Usage
 
-If you wish to simply use the default Arrow CRUD operations, you can create and extend your own models:
+If you wish to simply use the default Arrow operations (and any generic Redis operations), you can create and extend your own models. These models are optimized for faster Redis throughput:
 
 ```javascript
 var User = Arrow.Model.extend('user', {
@@ -21,10 +21,10 @@ var User = Arrow.Model.extend('user', {
 });
 ```
 
-If you wish to take advantage of some methods more specific to Redis, you need to extend the base Redis object.
+If you wish to take advantage of some methods more specific to Redis, in particular expiration, you need to extend the ephemeral Redis model.
 
 ```javascript
-var User = Arrow.Model.extend('appc.redis/base', 'user', {
+var User = Arrow.Model.extend('appc.redis/ephemeral', 'user', {
 	fields: {
 		name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
 	}
@@ -46,31 +46,36 @@ Example configurations can be found in `conf/`. You can set any of the following
 
 ## Redis Specific Features
 
+The default models implement the following Redis-specific methods:
+
+**ids([limit, ]callback)**
+
+> Returns a number of keys for the Model. In essence, this is a list of all primary keys for the Model. The callback receives `err` and an Array of `keys`.
+
+### Ephemeral Model
+
+Ephemeral models gain additional methods related to expiration. Please note that these models use a different storage technique and will be somewhat slower than the base models, so only use them if expiration is required.
+
 **expire(seconds[, callback])**
 
-Sets an expiration value on the current instance, taking an optional callback. This callback receives two arguments; `err` and `success`. 
+> Sets an expiration value on the current instance, taking an optional callback. This callback receives two arguments; `err` and `success`. 
 
 **expireAt(date[, callback])**
 
-Same as the above, but taking a JavaScript `Date` acceptable value (it's passed straight to the constructor), rather than a number of seconds.
+> Same as the above, but taking a JavaScript `Date` acceptable value (it's passed straight to the constructor), rather than a number of seconds.
 
-**keys([limit, ]callback)**
+**ids([limit, ]callback)**
 
-Returns a number of keys for the Model. In essence, this is a list of all primary keys for the Model. The callback receives `err` and an Array of `keys`.
+> Returns a number of keys for the Model. In essence, this is a list of all primary keys for the Model.
+> The callback receives `err` and an Array of `keys`.
 
 **persist([callback])**
 
-Removes an expiration on an instance. This callback receives two arguments; `err` and `success`. 
+> Removes an expiration on an instance. This callback receives two arguments; `err` and `success`. 
 
 **ttl(callback)**
 
-Returns the time-to-live of a given instance, as defined by a previously set expiration. Callback receives `err` and `ttl` (in seconds).
-
-## Migration from 1.0.x to 1.1.x
-
-Due to limitations in `node-redis`, from v1.1.0 onwards this connector will use `ioredis`. Everything functions the same way, but the configuration flags are a little different.
-
-Previously where `db` was defined inside the top level of the connector config, it should now move into the `opts` object. Any flags already inside `opts` should be re-evaluated against the flags of `ioredis` and changed accordingly.
+> Returns the time-to-live of a given instance, as defined by a previously set expiration. Callback receives `err` and `ttl` (in seconds).
 
 ## Development
 
