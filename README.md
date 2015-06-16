@@ -10,7 +10,7 @@ $ appc install connector/appc.redis --save
 
 ## Usage
 
-If you wish to simply use the default Arrow operations (and any generic Redis operations), you can create and extend your own models. These models are optimized for faster Redis throughput:
+If you wish to simply use the default Arrow operations, you can create and extend your own models. These models are optimized for faster Redis throughput:
 
 ```javascript
 var User = Arrow.Model.extend('user', {
@@ -18,6 +18,16 @@ var User = Arrow.Model.extend('user', {
 		name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
 	},
 	connector: 'appc.redis'
+});
+```
+
+If you wish to keep the optimized models, but use certain generic Redis features, you need to extend the base Redis model.
+
+```javascript
+var User = Arrow.Model.extend('appc.redis/base', 'user', {
+	fields: {
+		name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
+	}
 });
 ```
 
@@ -46,7 +56,7 @@ Example configurations can be found in `conf/`. You can set any of the following
 
 ## Redis Specific Features
 
-The default models implement the following Redis-specific methods:
+The Redis models implement the following Redis-specific methods:
 
 **ids([limit, ]callback)**
 

@@ -1,12 +1,12 @@
 var async = require('async'),
-    common = require('./common'),
+    common = require('../common'),
     should = require('should'),
     TestModel;
 
-describe('appc.redis base model', function() {
+describe('generic model', function() {
 
     before(function() {
-        TestModel = common.Arrow.Model.extend('appc.redis/base', 'testBase', {
+        TestModel = common.Arrow.Model.extend('testBase', {
             fields:{
                 fname:{
                     type: String, required: false
@@ -17,7 +17,8 @@ describe('appc.redis base model', function() {
                 age:{
                     type: Number, required: false
                 }
-            }
+            },
+            connector: 'appc.redis'
         });
     });
 
@@ -532,97 +533,6 @@ describe('appc.redis base model', function() {
                             should(collection2.length).equal(1);
                             should(collection2[0].fname).equal(fname);
                             should(collection2[0].lname).equal('Jameson');
-
-                            next();
-
-                        });
-
-                    });
-
-                });
-
-            });
-
-        });
-
-    });
-
-    describe('#ids', function(){
-
-        it('should retrieve ids for a Model', function(next) {
-
-            var fname = 'Hello world',
-                lname = 'Test';
-
-            TestModel.create({
-                fname: fname,
-                lname: lname
-            }, function(err, instance) {
-
-                should(err).not.be.ok;
-                should(instance).be.an.Object;
-                should(instance.getPrimaryKey()).be.a.String;
-                should(instance.fname).equal(fname);
-                should(instance.lname).equal(lname);
-
-                instance.ids(function(err, ids){
-
-                    should(err).not.be.ok;
-                    should(ids).be.ok;
-                    should(ids).be.an.Array;
-                    should(ids.length).eql(1);
-                    should(ids).containEql(instance.getPrimaryKey());
-
-                    next();
-
-                });
-
-            });
-
-        });
-
-        it('should retrieve a given number of keys for a Model', function(next) {
-
-            var fname = 'Hello world',
-                lname = 'Test';
-
-            TestModel.create({
-                fname: fname,
-                lname: lname
-            }, function(err, instance1) {
-
-                should(err).not.be.ok;
-                should(instance1).be.an.Object;
-                should(instance1.getPrimaryKey()).be.a.String;
-                should(instance1.fname).equal(fname);
-                should(instance1.lname).equal(lname);
-
-                TestModel.create({
-                    fname: fname,
-                    lname: lname
-                }, function(err, instance2) {
-
-                    should(err).not.be.ok;
-                    should(instance2).be.an.Object;
-                    should(instance2.getPrimaryKey()).be.a.String;
-                    should(instance2.fname).equal(fname);
-                    should(instance2.lname).equal(lname);
-
-                    instance1.ids(function(err, ids){
-
-                        should(err).not.be.ok;
-                        should(ids).be.ok;
-                        should(ids).be.an.Array;
-                        should(ids.length).eql(2);
-                        should(ids).containEql(instance1.getPrimaryKey());
-                        should(ids).containEql(instance2.getPrimaryKey());
-
-                        instance2.ids(1, function(err, ids){
-
-                            should(err).not.be.ok;
-                            should(ids).be.ok;
-                            should(ids).be.an.Array;
-                            should(ids.length).eql(1);
 
                             next();
 

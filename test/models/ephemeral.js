@@ -1,9 +1,9 @@
 var async = require('async'),
-    common = require('./common'),
+    common = require('../common'),
     should = require('should'),
     TestModel;
 
-describe('appc.redis ephemeral model', function() {
+describe('ephemeral model', function() {
 
     before(function() {
         TestModel = common.Arrow.Model.extend('appc.redis/ephemeral', 'testEphemeral', {
