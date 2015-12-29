@@ -27,3 +27,7 @@ node_modules
 
 # OS X
 .DS_Store
+
+# Arrow Configuration
+conf/local.js
+conf/jenkins.js

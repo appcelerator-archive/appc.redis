@@ -6,6 +6,7 @@ exports.Arrow = Arrow;
 exports.log = log;
 exports.server = server;
 exports.testDb = process.env.testDB || 15;
+exports.isRemote = server.config.connectors['appc.redis'].host !== '127.0.0.1';
 
 before(function (next) {
 	exports.connector = server.getConnector('appc.redis');

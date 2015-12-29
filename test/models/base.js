@@ -141,7 +141,9 @@ describe('base model', function () {
 				fname: fname,
 				lname: lname
 			}, function (err, createdInstance) {
-				should(err).not.be.ok;
+				if (err) {
+					throw err;
+				}
 				should(createdInstance).be.an.Object;
 
 				var id = createdInstance.getPrimaryKey();
@@ -362,7 +364,7 @@ describe('base model', function () {
 
 		});
 
-		it('should limit to 1000 instances', function (next) {
+		(common.isRemote ? it.skip : it)('should limit to 1000 instances', function (next) {
 
 			var fname = 'James',
 				lname = 'Smith';

@@ -364,7 +364,7 @@ describe('generic model', function () {
 
 		});
 
-		it('should limit to 1000 instances', function (next) {
+		(common.isRemote ? it.skip : it)('should limit to 1000 instances', function (next) {
 
 			var fname = 'James',
 				lname = 'Smith';
