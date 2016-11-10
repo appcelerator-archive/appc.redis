@@ -77,10 +77,10 @@ describe('generic model', function () {
 
 	});
 
-	describe('#findOne', function () {
+	describe('#findByID', function () {
 
 		it('should handle bad ids', function (next) {
-			TestModel.findOne('a_bad_id', function (err) {
+			TestModel.findByID('a_bad_id', function (err) {
 				should(err).be.ok;
 				next();
 			});
@@ -99,7 +99,7 @@ describe('generic model', function () {
 				should(createdInstance).be.an.Object;
 
 				var id = createdInstance.getPrimaryKey();
-				TestModel.findOne(id, function (err, foundInstance) {
+				TestModel.findByID(id, function (err, foundInstance) {
 					should(err).not.be.ok;
 					should(foundInstance).be.an.Object;
 
@@ -116,13 +116,13 @@ describe('generic model', function () {
 
 		it('should handle bad values', function (next) {
 
-			TestModel.findOne({
+			TestModel.findByID({
 				random: {
 					field: 1
 				}
 			}, function (err) {
 				should(err).be.ok;
-				should(err.message.indexOf('Unexpected value for findOne')).be.greaterThan(-1);
+				should(err.message.indexOf('Unexpected value for findByID')).be.greaterThan(-1);
 
 				next();
 			});
