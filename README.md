@@ -5,7 +5,7 @@ This is an Arrow connector for Redis, making available some of the most used fea
 ## Installation
 
 ```bash
-$ appc install connector/appc.redis --save
+$ appc install connector/appc.redis
 ```
 
 ## Usage
