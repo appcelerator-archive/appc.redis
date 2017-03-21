@@ -1,42 +1,58 @@
 {
-	"name": "appc.redis",
-	"description": "Redis connector for Arrow",
-	"version": "2.0.3",
-	"author": "Isaac Whitfield",
-	"license": "Apache-2.0",
-	"framework": "none",
-	"keywords": [
-		"arrow",
-		"arrow-connector",
-		"appcelerator",
-		"redis",
-		"redis-server"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:appcelerator/appc.redis.git"
-	},
-	"private": true,
-	"dependencies": {
-		"async": "1.5.0",
-		"ioredis": "1.13.1",
-		"lodash": "3.10.1",
-		"pkginfo": "0.3.1"
-	},
-	"devDependencies": {
-		"arrow": "*",
-		"grunt": "0.4.5",
-		"grunt-appc-js": "^1.0.19",
-		"grunt-contrib-clean": "0.7.0",
-		"grunt-mocha-istanbul": "3.0.1",
-		"istanbul": "0.4.1",
-		"mocha": "2.3.4",
-		"should": "8.0.2"
-	},
-	"scripts": {
-		"coverage": "grunt coverage",
-		"lint": "grunt lint",
-		"start": "node app",
-		"test": "grunt test"
-	}
+  "name": "appc.redis",
+  "description": "Redis connector for Arrow",
+  "version": "2.0.3",
+  "author": "Isaac Whitfield",
+  "license": "Apache-2.0",
+  "framework": "none",
+  "keywords": [
+    "arrow",
+    "arrow-connector",
+    "appcelerator",
+    "redis",
+    "redis-server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:appcelerator/appc.redis.git"
+  },
+  "private": true,
+  "dependencies": {
+    "async": "1.5.0",
+    "ioredis": "1.13.1",
+    "lodash": "3.10.1",
+    "pkginfo": "0.3.1"
+  },
+  "devDependencies": {
+    "arrow": "*",
+    "grunt": "0.4.5",
+    "grunt-appc-js": "^1.0.19",
+    "grunt-contrib-clean": "0.7.0",
+    "grunt-mocha-test": "^0.12.0",
+    "grunt-node-tap": "^1.0.0",
+    "mocha": "2.3.4",
+    "mockery": "2.0.0",
+    "should": "8.0.2",
+    "sinon": "1.17.7",
+    "snazzy": "6.0.0",
+    "standard": "9.0.1",
+    "tap": "10.3.0"
+  },
+  "scripts": {
+    "start": "appc run",
+    "lint": "standard --fix | snazzy",
+    "check-security": "nsp check || true",
+    "check-deps": "retire || true",
+    "clean": "rimraf ./tmp",
+    "checks": "npm run check-deps && npm run check-security",
+    "test": "npm run checks && npm run test:unit && npm run clean",
+    "test:coverage": "nyc check-coverage --lines 90 --functions 95 --branches 85 --statements 90",
+    "test:unit": "tap ./test/unit/* --color --bail --cov --coverage-report=html && npm run test:coverage",
+    "test:integration": "grunt"
+  },
+  "standard": {
+    "ignore": [
+      "test/integration/*"
+    ]
+  }
 }
