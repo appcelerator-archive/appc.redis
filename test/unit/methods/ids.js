@@ -27,8 +27,7 @@ test('### ids with three parameters###', function (t) {
     // Stubs & spies
 
     const getDelegateMethodStub = sandbox.stub(CONNECTOR,
-        'getDelegateMethod',
-        function (Model, method) {
+        'getDelegateMethod').callsFake(function (Model, method) {
             return function (Model, total, cbSpy) {
                 setImmediate(function () {
                     cbSpy()
@@ -56,8 +55,7 @@ test('### ids with two parameters ###', function (t) {
 
     // Stubs & spies
     const getDelegateMethodStub = sandbox.stub(CONNECTOR,
-        'getDelegateMethod',
-        function (Model, method) {
+        'getDelegateMethod').callsFake(function (Model, method) {
             return function (Model, total, cbSpy) {
                 setImmediate(function () {
                     cbSpy()
