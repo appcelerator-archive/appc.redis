@@ -94,4 +94,4 @@ module.exports = {
   // the date and time format to be used for admin-ui. Default is 'yyyy:mm:dd, HH:MM:ss.l'
   // reference: https://github.com/felixge/node-dateformat
   dateTimeFormat: 'yyyy:mm:dd, HH:MM:ss.l'
-};
+}

@@ -74,7 +74,7 @@ test('### Should returns ephemeral keys ###', function (t) {
     t.ok(doWhilstStub.calledOnce)
     t.ok(doWhilstCbSpy.calledTwice)
     t.ok(cbSpy.calledOnce)
-    t.ok(cbSpy.calledWith(null, ["test", "{\"id\": 1}"]))
+    t.ok(cbSpy.calledWith(null, ['test', '{"id": 1}']))
 
     // Restore
     sandbox.restore()
@@ -128,4 +128,3 @@ test('### Should returns error ###', function (t) {
   // Function call
   ephemeral.getEphemeralKeys.call(connector, testModel, {}, cbSpy)
 })
-
