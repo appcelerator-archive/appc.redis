@@ -46,7 +46,7 @@
 		"check-deps": "retire || true",
 		"clean": "rimraf ./tmp",
 		"checks": "npm run check-deps && npm run check-security",
-		"test": "npm run checks && npm run test:unit && npm run clean",
+		"test": "npm run lint && npm run checks && npm run test:unit && npm run clean",
 		"test:coverage": "nyc check-coverage --lines 90 --functions 95 --branches 85 --statements 90",
 		"test:unit": "tap ./test/unit/* --color --bail --cov --coverage-report=html && npm run test:coverage",
 		"test:integration": "grunt"

@@ -6,62 +6,62 @@ var ARROW
 var CONNECTOR
 
 test('### Start Arrow ###', function (t) {
-    server()
+  server()
         .then((inst) => {
-            ARROW = inst
-            CONNECTOR = ARROW.getConnector('appc.redis')
-            t.ok(ARROW, 'Arrow has been started')
-            t.end()
+          ARROW = inst
+          CONNECTOR = ARROW.getConnector('appc.redis')
+          t.ok(ARROW, 'Arrow has been started')
+          t.end()
         })
         .catch((err) => {
-            t.threw(err)
+          t.threw(err)
         })
 })
 
 test('FindOne with console.warn', function (t) {
-    //Data
-    const logger = CONNECTOR.logger
-    CONNECTOR.logger = undefined
-    const sandbox = sinon.sandbox.create()
+    // Data
+  const logger = CONNECTOR.logger
+  CONNECTOR.logger = undefined
+  const sandbox = sinon.sandbox.create()
 
-    //Stubs and spies
-    const findByIdStub = sandbox.stub(
+    // Stubs and spies
+  const findByIdStub = sandbox.stub(
         CONNECTOR.findByID,
         'apply').callsFake((values) => { }
     )
 
     // Execution
-    findOneMethod.bind(CONNECTOR)()
+  findOneMethod.bind(CONNECTOR)()
 
-    t.ok(findByIdStub.calledOnce)
+  t.ok(findByIdStub.calledOnce)
 
-    CONNECTOR.logger = logger
-    sandbox.restore()
-    t.end()
+  CONNECTOR.logger = logger
+  sandbox.restore()
+  t.end()
 })
 
 test('FindOne with logger', function (t) {
-    const sandbox = sinon.sandbox.create()
-    const findByIdStub = sandbox.stub(
+  const sandbox = sinon.sandbox.create()
+  const findByIdStub = sandbox.stub(
         CONNECTOR.findByID,
         'apply').callsFake((values) => { }
     )
 
-    const loggerStub = sandbox.stub(CONNECTOR.logger,
+  const loggerStub = sandbox.stub(CONNECTOR.logger,
         'warn').callsFake(() => { })
 
     // Execution
-    findOneMethod.bind(CONNECTOR)()
-    t.ok(loggerStub.calledOnce)
-    t.ok(findByIdStub.calledOnce)
+  findOneMethod.bind(CONNECTOR)()
+  t.ok(loggerStub.calledOnce)
+  t.ok(findByIdStub.calledOnce)
 
-    sandbox.restore()
-    t.end()
+  sandbox.restore()
+  t.end()
 })
 
 test('### Stop Arrow ###', function (t) {
-    ARROW.stop(function () {
-        t.pass('Arrow has been stopped!')
-        t.end()
-    })
+  ARROW.stop(function () {
+    t.pass('Arrow has been stopped!')
+    t.end()
+  })
 })
