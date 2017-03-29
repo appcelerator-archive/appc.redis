@@ -26,11 +26,10 @@ test('### Count with three parameters ###', function (t) {
     const Model = ARROW.getModel('testModel')
 
     // Stubs & spies
-    const _isFunctionStub = sandbox.stub(_, 'isFunction', function (options) { return false })
+    const _isFunctionStub = sandbox.stub(_, 'isFunction').callsFake(function (options) { return false })
 
     const getDelegateMethodStub = sandbox.stub(CONNECTOR,
-        'getDelegateMethod',
-        function (Model, method) {
+        'getDelegateMethod').callsFake(function (Model, method) {
             return function (Model, cbSpy) {
                 setImmediate(function () {
                     cbSpy()
@@ -59,12 +58,11 @@ test('### Count with two parameters ###', function (t) {
     const Model = ARROW.getModel('testModel')
 
     // Stubs & spies
-    const _isFunctionStub = sandbox.stub(_, 'isFunction', function (options) { return true })
+    const _isFunctionStub = sandbox.stub(_, 'isFunction').callsFake(function (options) { return true })
     function cb(errParameter, instance) { }
     const cbSpy = sandbox.spy(cb)
     const getDelegateMethodStub = sandbox.stub(CONNECTOR,
-        'getDelegateMethod',
-        function (Model, method) {
+        'getDelegateMethod').callsFake(function (Model, method) {
             return function (Model, cbSpy) {
                 setImmediate(function () {
                     cbSpy()

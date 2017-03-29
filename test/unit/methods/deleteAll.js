@@ -26,8 +26,7 @@ test('### Delete All ###', function (t) {
 
     // Stubs & spies
     const getDelegateMethodStub = sandbox.stub(CONNECTOR,
-        'getDelegateMethod',
-        function (Model, method) {
+        'getDelegateMethod').callsFake(function (Model, method) {
             return function (Model, cbSpy) {
                 setImmediate(function () {
                     cbSpy()

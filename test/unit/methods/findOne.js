@@ -27,8 +27,7 @@ test('FindOne with console.warn', function (t) {
     //Stubs and spies
     const findByIdStub = sandbox.stub(
         CONNECTOR.findByID,
-        'apply',
-        (values) => { }
+        'apply').callsFake((values) => { }
     )
 
     // Execution
@@ -45,14 +44,11 @@ test('FindOne with logger', function (t) {
     const sandbox = sinon.sandbox.create()
     const findByIdStub = sandbox.stub(
         CONNECTOR.findByID,
-        'apply',
-        (values) => { }
+        'apply').callsFake((values) => { }
     )
 
     const loggerStub = sandbox.stub(CONNECTOR.logger,
-        'warn',
-        (CONNECTOR) => { }
-    )
+        'warn').callsFake(() => { })
 
     // Execution
     findOneMethod.bind(CONNECTOR)()
