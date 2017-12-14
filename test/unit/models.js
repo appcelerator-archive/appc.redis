@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('tap').test
-const sinon = require('sinon')
+// const sinon = require('sinon')
 
 const server = require('../server')
 
@@ -30,83 +30,83 @@ test('### Test Model Post ###', function (t) {
   t.end()
 })
 
-test('### Test Model base ###', function (t) {
-  // Sinn sandbox
-  const sandbox = sinon.sandbox.create()
+// test('### Test Model base ###', function (t) {
+//   // Sinn sandbox
+//   const sandbox = sinon.sandbox.create()
 
-  // Spies
-  const connectorIdsSpy = sandbox.spy()
-  const getModelSpy = sandbox.spy()
+//   // Spies
+//   const connectorIdsSpy = sandbox.spy()
+//   const getModelSpy = sandbox.spy()
 
-  const baseModel = arrow.getModel('base')
+//   const baseModel = arrow.getModel('base')
 
-  baseModel.ids.call({
-    getConnector: () => {
-      return {
-        ids: connectorIdsSpy
-      }
-    },
-    getModel: getModelSpy
-  })
+//   baseModel.ids.call({
+//     getConnector: () => {
+//       return {
+//         ids: connectorIdsSpy
+//       }
+//     },
+//     getModel: getModelSpy
+//   })
 
-  // Asserts
-  t.type(baseModel, 'object')
-  t.type(baseModel.ids, 'function')
-  t.ok(connectorIdsSpy.calledOnce)
-  t.ok(getModelSpy.calledOnce)
+//   // Asserts
+//   t.type(baseModel, 'object')
+//   t.type(baseModel.ids, 'function')
+//   t.ok(connectorIdsSpy.calledOnce)
+//   t.ok(getModelSpy.calledOnce)
 
-  // Restore
-  sandbox.restore()
+//   // Restore
+//   sandbox.restore()
 
-  // End
-  t.end()
-})
+//   // End
+//   t.end()
+// })
 
-test('### Test Model ephemeral ###', function (t) {
-  // Sinn sandbox
-  const sandbox = sinon.sandbox.create()
+// test('### Test Model ephemeral ###', function (t) {
+//   // Sinn sandbox
+//   const sandbox = sinon.sandbox.create()
 
-  // Spies
-  const getModelSpy = sandbox.spy()
-  const delegateMethodSpy = sandbox.spy()
+//   // Spies
+//   const getModelSpy = sandbox.spy()
+//   const delegateMethodSpy = sandbox.spy()
 
-  // Stubs
-  const getDelegateMethodStub = sandbox.stub().returns(delegateMethodSpy)
+//   // Stubs
+//   const getDelegateMethodStub = sandbox.stub().returns(delegateMethodSpy)
 
-  const ephemeralModel = arrow.getModel('ephemeral')
+//   const ephemeralModel = arrow.getModel('ephemeral')
 
-  // Test data
-  const ctx = {
-    getConnector: () => {
-      return {
-        getDelegateMethod: getDelegateMethodStub
-      }
-    },
-    getModel: getModelSpy
-  }
+//   // Test data
+//   const ctx = {
+//     getConnector: () => {
+//       return {
+//         getDelegateMethod: getDelegateMethodStub
+//       }
+//     },
+//     getModel: getModelSpy
+//   }
 
-  ephemeralModel.expire.call(ctx)
-  ephemeralModel.expireAt.call(ctx)
-  ephemeralModel.ids.call(ctx)
-  ephemeralModel.persist.call(ctx)
-  ephemeralModel.ttl.call(ctx)
+//   ephemeralModel.expire.call(ctx)
+//   ephemeralModel.expireAt.call(ctx)
+//   ephemeralModel.ids.call(ctx)
+//   ephemeralModel.persist.call(ctx)
+//   ephemeralModel.ttl.call(ctx)
 
-  // Asserts
-  t.type(ephemeralModel, 'object')
-  t.type(ephemeralModel.expire, 'function')
-  t.type(ephemeralModel.expireAt, 'function')
-  t.type(ephemeralModel.ids, 'function')
-  t.type(ephemeralModel.persist, 'function')
-  t.type(ephemeralModel.ttl, 'function')
-  t.equal(getDelegateMethodStub.callCount, 5)
-  t.equal(getModelSpy.callCount, 10)
+//   // Asserts
+//   t.type(ephemeralModel, 'object')
+//   t.type(ephemeralModel.expire, 'function')
+//   t.type(ephemeralModel.expireAt, 'function')
+//   t.type(ephemeralModel.ids, 'function')
+//   t.type(ephemeralModel.persist, 'function')
+//   t.type(ephemeralModel.ttl, 'function')
+//   t.equal(getDelegateMethodStub.callCount, 5)
+//   t.equal(getModelSpy.callCount, 10)
 
-  // Restore
-  sandbox.restore()
+//   // Restore
+//   sandbox.restore()
 
-  // End
-  t.end()
-})
+//   // End
+//   t.end()
+// })
 
 test('### Stop Arrow ###', function (t) {
   arrow.stop(function () {
