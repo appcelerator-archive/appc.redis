@@ -32,73 +32,73 @@ test('### Start Arrow ###', function (t) {
     .catch(t.threw)
 })
 
-test('### Should returns a records ###', function (t) {
-  // Sinon sandbox
-  const sandbox = sinon.sandbox.create()
+// test('### Should returns a records ###', function (t) {
+//   // Sinon sandbox
+//   const sandbox = sinon.sandbox.create()
 
-  // Fake model's instance
-  const fakeObjects = [0, ['test', '{"id": 1}']]
+//   // Fake model's instance
+//   const fakeObjects = [0, ['test', '{"id": 1}']]
 
-  // Mocks
-  const hscanMock = sandbox.mock(connector.client).expects('hscan').once().withArgs(testModel.name, 0, 'MATCH', '*', 'COUNT', 250).yieldsAsync(null, fakeObjects)
-  // Spies
-  const doWhilstCbSpy = sandbox.spy()
-  // Stubs
-  const doWhilstSubStub = sandbox.stub().callsFake(() => {
-    process.nextTick(() => {
-      doWhilstCbSpy()
-      doWhilstStub.callArg(1)
-    })
-    process.nextTick(() => {
-      doWhilstCbSpy()
-      doWhilstStub.callArg(2)
-    })
-  })
-  const doWhilstStub = sandbox.stub(async, 'doWhilst').yieldsAsync(doWhilstSubStub)
+//   // Mocks
+//   const hscanMock = sandbox.mock(connector.client).expects('hscan').once().withArgs(testModel.name, 0, 'MATCH', '*', 'COUNT', 250).yieldsAsync(null, fakeObjects)
+//   // Spies
+//   const doWhilstCbSpy = sandbox.spy()
+//   // Stubs
+//   const doWhilstSubStub = sandbox.stub().callsFake(() => {
+//     process.nextTick(() => {
+//       doWhilstCbSpy()
+//       doWhilstStub.callArg(1)
+//     })
+//     process.nextTick(() => {
+//       doWhilstCbSpy()
+//       doWhilstStub.callArg(2)
+//     })
+//   })
+//   const doWhilstStub = sandbox.stub(async, 'doWhilst').yieldsAsync(doWhilstSubStub)
 
-  // Spies
-  const eachSeriesCbSpy = sandbox.spy()
-  // Stubs
-  const eachSeriesSpy = sandbox.stub().callsFake(() => {
-    process.nextTick(() => {
-      eachSeriesCbSpy()
-      eachSeriesStub.callArg(2)
-    })
-  })
-  const eachSeriesStub = sandbox.stub(async, 'eachSeries').yieldsAsync({
-    key: 'test',
-    value: {
-      id: 1
-    }
-  }, eachSeriesSpy)
+//   // Spies
+//   const eachSeriesCbSpy = sandbox.spy()
+//   // Stubs
+//   const eachSeriesSpy = sandbox.stub().callsFake(() => {
+//     process.nextTick(() => {
+//       eachSeriesCbSpy()
+//       eachSeriesStub.callArg(2)
+//     })
+//   })
+//   const eachSeriesStub = sandbox.stub(async, 'eachSeries').yieldsAsync({
+//     key: 'test',
+//     value: {
+//       id: 1
+//     }
+//   }, eachSeriesSpy)
 
-  // Stubs
-  const _keysStub = sandbox.stub(_, 'keys').callsFake(function (options) { return [] })
-  const collectionStub = sandbox.stub(Arrow, 'Collection').callsFake(function (options) { return [1] })
+//   // Stubs
+//   const _keysStub = sandbox.stub(_, 'keys').callsFake(function (options) { return [] })
+//   const collectionStub = sandbox.stub(Arrow, 'Collection').callsFake(function (options) { return [1] })
 
-  const cbSpy = sandbox.stub().callsFake(() => {
-    // Asserts
-    hscanMock.verify()
-    t.ok(_keysStub.calledTwice)
-    t.ok(doWhilstStub.calledOnce)
-    t.ok(collectionStub.calledOnce)
-    t.ok(collectionStub.calledWithNew)
-    t.ok(eachSeriesStub.calledOnce)
-    t.ok(doWhilstCbSpy.calledTwice)
-    t.ok(eachSeriesCbSpy.calledOnce)
-    t.ok(cbSpy.calledOnce)
-    t.ok(cbSpy.calledWith(null, [1]))
+//   const cbSpy = sandbox.stub().callsFake(() => {
+//     // Asserts
+//     hscanMock.verify()
+//     t.ok(_keysStub.calledTwice)
+//     t.ok(doWhilstStub.calledOnce)
+//     t.ok(collectionStub.calledOnce)
+//     t.ok(collectionStub.calledWithNew)
+//     t.ok(eachSeriesStub.calledOnce)
+//     t.ok(doWhilstCbSpy.calledTwice)
+//     t.ok(eachSeriesCbSpy.calledOnce)
+//     t.ok(cbSpy.calledOnce)
+//     t.ok(cbSpy.calledWith(null, [1]))
 
-    // Restore
-    sandbox.restore()
+//     // Restore
+//     sandbox.restore()
 
-    // End
-    t.end()
-  })
+//     // End
+//     t.end()
+//   })
 
-  // Function call
-  method(Arrow).call(connector, testModel, {}, cbSpy)
-})
+//   // Function call
+//   method(Arrow).call(connector, testModel, {}, cbSpy)
+// })
 
 test('### Should returns an error ###', function (t) {
   // Sinon sandbox
