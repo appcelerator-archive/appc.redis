@@ -39,8 +39,8 @@ conf/jenkins.js
 # vscode directory
 .vscode/*
 
-# retire and nsp files
-scan-nsp.json
+# retire and audit files
+scan-audit.json
 scan-retire.json
 
 # Others
