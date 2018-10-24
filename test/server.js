@@ -9,7 +9,7 @@ module.exports = function (options) {
     connector.metadata = {}
 
     if (options.generateTestModels !== false) {
-            // Create test model - testModel
+      // Create test model - testModel
       arrow.addModel(Arrow.createModel('testModel', {
         name: 'testModel',
         connector,
@@ -33,7 +33,7 @@ module.exports = function (options) {
       }))
     }
 
-        // Return the arrow instance
+    // Return the arrow instance
     resolve(arrow)
   })
 }

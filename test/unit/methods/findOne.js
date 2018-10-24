@@ -7,30 +7,30 @@ var CONNECTOR
 
 test('### Start Arrow ###', function (t) {
   server()
-        .then((inst) => {
-          ARROW = inst
-          CONNECTOR = ARROW.getConnector('appc.redis')
-          t.ok(ARROW, 'Arrow has been started')
-          t.end()
-        })
-        .catch((err) => {
-          t.threw(err)
-        })
+    .then((inst) => {
+      ARROW = inst
+      CONNECTOR = ARROW.getConnector('appc.redis')
+      t.ok(ARROW, 'Arrow has been started')
+      t.end()
+    })
+    .catch((err) => {
+      t.threw(err)
+    })
 })
 
 test('FindOne with console.warn', function (t) {
-    // Data
+  // Data
   const logger = CONNECTOR.logger
   CONNECTOR.logger = undefined
   const sandbox = sinon.sandbox.create()
 
-    // Stubs and spies
+  // Stubs and spies
   const findByIdStub = sandbox.stub(
-        CONNECTOR.findByID,
-        'apply').callsFake((values) => { }
-    )
+    CONNECTOR.findByID,
+    'apply').callsFake((values) => { }
+  )
 
-    // Execution
+  // Execution
   findOneMethod.bind(CONNECTOR)()
 
   t.ok(findByIdStub.calledOnce)
@@ -43,14 +43,14 @@ test('FindOne with console.warn', function (t) {
 test('FindOne with logger', function (t) {
   const sandbox = sinon.sandbox.create()
   const findByIdStub = sandbox.stub(
-        CONNECTOR.findByID,
-        'apply').callsFake((values) => { }
-    )
+    CONNECTOR.findByID,
+    'apply').callsFake((values) => { }
+  )
 
   const loggerStub = sandbox.stub(CONNECTOR.logger,
-        'warn').callsFake(() => { })
+    'warn').callsFake(() => { })
 
-    // Execution
+  // Execution
   findOneMethod.bind(CONNECTOR)()
   t.ok(loggerStub.calledOnce)
   t.ok(findByIdStub.calledOnce)
